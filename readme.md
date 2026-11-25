@@ -13,26 +13,26 @@ The system integrates a multi-cycle processor core (`cpu_top`) with combinationa
 +---------------------------------------------------------------------------------+
 |                                   calc_top                                      |
 |                                                                                 |
-|  +--------------------+     addr_bus[7:0]     +--------------------+            |
-|  |      cpu_top       |======================>|    addr_decoder    |            |
-|  | - control_unit     | mem_rd, mem_wr,       | 0x00-0x7F -> cs_rom|            |
-|  | - datapath         | io_rd, io_wr          | 0x80-0xDF -> cs_ram|            |
-|  | - interrupt_ctrl   |======================>| 0xE0-0xFF -> cs_io |            |
-|  +--------------------+                       +--------------------+            |
-|     ^        ^        |                          |         |       |            |
-|     |        |        | data_bus[7:0] (inout)  |cs_rom   |cs_ram |cs_io       |
-|  irq_key  irq_clr     +------+------+------+-----+         v       v       v    |
-|     |        |               |      |      |       +---------+ +-----+ +----+ |
-|  +--+--------+-------+       v      v      v       |flash_rom| |sram | | I/O| |
-|  |     keypad_if     |     +------------------+    | 128 B   | |96 B | |Mux | |
-|  | - scan & debounce |<===>| Tri-State Bus    |    +---------+ +-----+ +----+ |
-|  | - port 0xE0 latch |     | (8'hZZ inactive) |                       |      |
-|  +-------------------+     +------------------+                       v      |
-|    ^          ^                                                 +------------+ |
-|    |          |                                                 |display_ctrl| |
-| keypad_col/  btn_add/sub/                                       |0xE1-0xE3   | |
-| keypad_row   mul/eq/clr                                         |seg, dig_en | |
-+-----------------------------------------------------------------+------------+ |
+|  +--------------------+     addr_bus[7:0]     +----------------------------+    |
+|  |      cpu_top       |======================>|           addr_decoder     |    |
+|  | - control_unit     | mem_rd, mem_wr,       |        0x00-0x7F -> cs_rom |    |
+|  | - datapath         | io_rd, io_wr          |        0x80-0xDF -> cs_ram |    |
+|  | - interrupt_ctrl   |======================>|        0xE0-0xFF -> cs_io  |    |
+|  +--------------------+                       +-------------------------=--+    |
+|     ^        ^        |                        |         |       |       |      |
+|     |        |        | data_bus[7:0] (inout)  |  cs_rom | cs_ram|  cs_io|      |
+|  irq_key  irq_clr     +------+------+------+---+         v       v       v      |
+|     |        |               |      |      |       +---------+ +-----+ +----+   |
+|  +--+--------+-------+       v      v      v       |flash_rom| |sram | | I/O|   |
+|  |     keypad_if     |     +------------------+    | 128 B   | |96 B | |Mux |   |
+|  | - scan & debounce |<===>| Tri-State Bus    |    +---------+ +-----+ +----+   |
+|  | - port 0xE0 latch |     | (8'hZZ inactive) |                       |         |
+|  +-------------------+     +------------------+                       v         |
+|    ^          ^                                                 +------------+  |
+|    |          |                                                 |display_ctrl|  |
+| keypad_col/  btn_add/sub/                                       |0xE1-0xE3   |  |
+| keypad_row   mul/eq/clr                                         |seg, dig_en |  | 
++-----------------------------------------------------------------+------------+--+ 
                                                                    |     |      |
                                                                    v     v      v
                                                               4-Digit Common-Cathode
@@ -45,7 +45,7 @@ The system integrates a multi-cycle processor core (`cpu_top`) with combinationa
 |                                cpu_top                                  |
 |                                                                         |
 |  +------+  +-----+  +------+  +------+  +------+                        |
-|  |  PC  |  |  A  |  |  R0  |  |  R1  |  |  H   |   (IR, MAR, MDR)      |
+|  |  PC  |  |  A  |  |  R0  |  |  R1  |  |  H   |   (IR, MAR, MDR)       |
 |  +--+---+  +--+--+  +---+--+  +---+--+  +---+--+                        |
 |     |         |         |         |         |                           |
 |     +---------+----+----+---------+---------+                           |
@@ -57,9 +57,9 @@ The system integrates a multi-cycle processor core (`cpu_top`) with combinationa
 |                    |                                                    |
 |                    v                                                    |
 |           +-----------------+                                           |
-|           |       ALU       |---> flags[3:0] (Z, N, C, V)              |
-|           | ADD, SUB, MUL8x8|                                           |
-|           +-----------------+                                           |
+|           |       ALU       |---> flags[3:0] (Z, N, C, V)               |
+|           | ADD, SUB, MUL8x8|               |                           |
+|           +-----------------+               |                           |
 |                    ^                        |                           |
 |                    | control signals        | flags, irq_key, irq_clr   |
 |                    |                        v                           |
