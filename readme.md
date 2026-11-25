@@ -135,3 +135,12 @@ The system integrates a multi-cycle processor core (`cpu_top`) with combinationa
 
 * **Timing Scaling:** Simulation testbenches use small `DEBOUNCE_MAX` and `MUX_DIV_MAX` values for fast runtimes. For a $50\text{ MHz}$ FPGA clock, scale `DEBOUNCE_MAX` to $\sim 10\text{--}20\text{ ms}$ ($500{,}000\text{--}1{,}000{,}000$ cycles) and `MUX_DIV_MAX` to $\sim 1\text{--}2\text{ ms}$ per digit ($\sim 50{,}000$ cycles).
 * **ROM Initialization:** Replace testbench hierarchical array assignments (`uut.u_rom.rom[...]`) with a `.hex` or `.mif` initialization image loaded into `flash_rom` before FPGA synthesis.
+
+## How to Run
+* to run the entire system:
+*1. first compile
+*2. then in the transcript run:
+*     quit -sim
+      vsim -voptargs="+acc" work.tb_system
+      add wave -r sim:/tb_system/*
+      run -all	
