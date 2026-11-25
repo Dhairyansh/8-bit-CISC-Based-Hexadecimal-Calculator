@@ -1,0 +1,44 @@
+put all these files under one project then compile and then simulate as per the given instruction below.
+to run the entire system:
+1. first compile
+2. then in the transcript run:
+      quit -sim
+      vsim -voptargs="+acc" work.tb_system
+      add wave -r sim:/tb_system/*
+      run -all	
+
+
+to run just ALU:
+1. first compile
+2. then in the transcript run:
+      quit -sim
+      vsim -voptargs=+acc work.tb_alu
+      add wave -r sim:/tb_alu/*
+      run -all
+
+to test datapath:
+1. first compile
+2. then in the transcript run:
+      quit -sim
+      vsim -voptargs=+acc work.tb_datapath
+      add wave -r sim:/tb_datapath/*
+      run -all
+ 
+to run cpu:
+1. first compile
+2. then in the transcript run:
+      quit -sim
+      vsim -voptargs=+acc work.tb_cpu
+      add wave -r sim:/tb_cpu/*
+      run -all
+
+to run memory:
+1. first compile
+2. then in the transcript run:
+      quit -sim
+      vsim -voptargs=+acc work.tb_memory
+      add wave -r sim:/tb_memory/*
+      run -all
+
+
+# after every execution, Questa will ask you weather do you want to quit, press NO
