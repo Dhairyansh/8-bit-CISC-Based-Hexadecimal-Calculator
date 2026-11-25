@@ -137,6 +137,7 @@ The system integrates a multi-cycle processor core (`cpu_top`) with combinationa
 * **ROM Initialization:** Replace testbench hierarchical array assignments (`uut.u_rom.rom[...]`) with a `.hex` or `.mif` initialization image loaded into `flash_rom` before FPGA synthesis.
 
 ## How to Run
+* upload all the file into one project and open it on the questa.
 * to run the entire system:
 *1. first compile
 *2. then in the transcript run:
